@@ -1,68 +1,66 @@
-package com.bitcamp.Controllers;
-
+package com.bitcamp.controllers;
 import javax.swing.JOptionPane;
-
+import com.bitcamp.services.MemberService;
 import com.bitcamp.domains.MemberBean;
-import com.bitcamp.services.MembersService;
 public class MemberController {
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		MembersService service = new MembersService();
-		MemberBean member = new MemberBean();
-		
-		
+		MemberService ms = new MemberService();
+		MemberBean mb = null;
 		
 		while(true) {
-			// 이름, 아이디 , 비밀번호, 주민번호 , 혈액형, 키 , 몸무게
-			switch(JOptionPane.showInputDialog("0. 종료 \n"
+			switch(JOptionPane.showInputDialog("0.종료\n" 
 					+ "1.회원가입\n"
-					+ "2.마이페이지 \n"
-					+ "3.비번변경\n"
+					+ "2.마이페이지\n"
+					+ "3.비밀번호변경\n"
 					+ "4.회원탈퇴\n"
-					+ "5.회원목록 \n"
+					+ "5.회원목록\n"
 					+ "6.아이디검색")) {
 			case "0":
-				JOptionPane.showMessageDialog(null,"종료");
-				return;
+				JOptionPane.showMessageDialog(null, "종료");
 			case "1":
-				String spec = JOptionPane.showInputDialog( "이름,아이디,비밀번호,주민번호,혈액형,키,몸무게");
-				System.out.println("****" + spec);
-				String[] arr = spec.split(",");
-				member.setName(arr[0]);
-				member.setId(arr[1]);
-				member.setPw(arr[2]);
-				member.setSsn(arr[3]);
-				member.setBlood(arr[4]);
-				member.setHeight(Double.parseDouble(arr[5]));
-				member.setWeight(Double.parseDouble(arr[6]));
-				JOptionPane.showMessageDialog(null, service.join(member));
+				//id, pw, name, ssn, blood
+				String spc = JOptionPane.showInputDialog("아이디/비밀번호/이름/주민번호/혈액형/키/몸무게");
+				String[] arr = spc.split("/");
+				mb = new MemberBean();
+				mb.setId(arr[0]);
+				mb.setPw(arr[1]);
+				mb.setName(arr[2]);
+				mb.setSsn(arr[3]);
+				mb.setBlood(arr[4]);
+				mb.setHeight(Double.parseDouble(arr[5]));
+				mb.setWeight(Double.parseDouble(arr[6]));
+				JOptionPane.showMessageDialog(null,ms.join(mb));
+				
+				
+				
 				
 				break;
-				
 			case "2":
-				JOptionPane.showMessageDialog(null, service.showMyPage(member));
+				JOptionPane.showMessageDialog(null, ms.showMypage(mb));
 				break;
 			case "3":
+				
+				//JOptionPane.showInputDialog()
 				break;
 			case "4":
 				break;
 			case "5":
-				JOptionPane.showMessageDialog(null, service.list());
+				JOptionPane.showMessageDialog(null, ms.myList());
 				break;
 			case "6":
-				String findId = JOptionPane.showInputDialog("아이디입력");
-				member = service.findById(findId);
-				JOptionPane.showMessageDialog(null, member.tosString());
+				String id = JOptionPane.showInputDialog("id입력");
+				mb = ms.searchId(id);
+				
+				JOptionPane.showMessageDialog(null, mb.tosString());
+				//System.out.println(mb.tosString());
+				
 				break;
-				
-				
-				
 			}
 		}
 	}
-	
 
 }
-
